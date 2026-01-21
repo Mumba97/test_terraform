@@ -1,0 +1,16 @@
+# 1. Usar la imagen oficial de Nginx (versión ligera basada en Alpine Linux)
+FROM nginx:alpine
+
+# 2. (Opcional) Borrar la página de "Bienvenida a Nginx" por defecto
+RUN rm -rf /usr/share/nginx/html/*
+
+# 3. Copiar los archivos de TU proyecto al directorio público de Nginx en el contenedor
+# El punto (.) significa "la carpeta actual donde estoy"
+COPY . /usr/share/nginx/html
+
+# 4. Exponer el puerto 80 (el estándar para web)
+EXPOSE 80
+
+# 5. El comando para iniciar Nginx (viene por defecto en la imagen base, 
+# pero es bueno saber que esto sucede)
+CMD ["nginx", "-g", "daemon off;"]

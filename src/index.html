@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control de Dispositivo</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+    <script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
+    <script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Panel de Emergencia 🏍️</h1>
+    <div id="status-message"></div>
+
+    <div id="auth-section">
+        <div id="login-form">
+            <h2>Iniciar Sesión</h2>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Contraseña">
+            <button onclick="signIn()">Iniciar Sesión</button>
+            <p>¿No tienes una cuenta? <a href="#" onclick="toggleAuthForms()">Regístrate aquí</a></p>
+        </div>
+
+        <div id="signup-form" class="hidden">
+            <h2>Crear Cuenta Nueva</h2>
+            <input type="email" id="signup-email" placeholder="Email">
+            <input type="password" id="signup-password" placeholder="Contraseña">
+            <button onclick="signUp()">Registrarse</button>
+            <p>¿Ya tienes una cuenta? <a href="#" onclick="toggleAuthForms()">Inicia sesión</a></p>
+        </div>
+
+        <div id="confirm-form" class="hidden">
+            <h2>Confirmar Cuenta</h2>
+            <p>Te hemos enviado un código a tu correo electrónico.</p>
+            <input type="email" id="confirm-email" placeholder="Email de confirmación">
+            <input type="text" id="confirm-code" placeholder="Código de confirmación">
+            <button onclick="confirmSignUp()">Confirmar</button>
+        </div>
+
+        </div>
+
+    <div id="app-content" class="hidden">
+        <p>Bienvenido, <b id="user-email"></b>. <button onclick="signOut()" class="danger-btn">Cerrar Sesión</button></p>
+
+        <div class="section">
+            <h2>Gestión de Dispositivo</h2>
+            <div id="device-management">
+                <div id="pairing-form">
+                    <p>No tienes un dispositivo pareado.</p>
+                    <input type="text" id="deviceId-input" placeholder="Ingresa el ID de tu dispositivo">
+                    <button onclick="pairDevice()">Parear Dispositivo</button>
+                </div>
+                <div id="paired-device-info" class="hidden">
+                    <p>Dispositivo pareado: <b id="current-deviceId"></b></p>
+                    <button onclick="unpairDevice()" class="danger-btn">Quitar Dispositivo</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Contactos de Emergencia</h2>
+            <div id="add-contact-form">
+                <h3>Añadir Nuevo Contacto</h3>
+                <input type="text" id="contact-name" placeholder="Nombre">
+                <input type="tel" id="contact-phone" placeholder="Teléfono (+5255...)" >
+                <input type="text" id="contact-relationship" placeholder="Relación (Ej: Padre)">
+                <button onclick="addContact()">Añadir Contacto</button>
+            </div>
+            <div id="contact-list">
+                <h3>Mis Contactos</h3>
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
