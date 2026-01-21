@@ -1,0 +1,36 @@
+name: Destroy Infrastructure
+
+# Esto activa el botón manual en la interfaz de GitHub
+on:
+  workflow_dispatch:
+
+env:
+  TF_VAR_project_id: ${{ secrets.PROJECT_ID }}
+
+jobs:
+  terraform-destroy:
+    name: 'Terraform Destroy'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Autenticación (Usando la misma llave JSON que configuraste antes)
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./terraform
+
+    # El comando destructivo
+    - name: Terraform Destroy
+      # -auto-approve es vital, si no el pipeline se quedará esperando que escribas "yes"
+      run: terraform destroy -auto-approve -input=false
+      working-directory: ./terraform
